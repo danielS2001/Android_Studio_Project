@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 buttonConnect.setVisibility(View.VISIBLE);
                 btnTemperatura.setVisibility(View.VISIBLE);
                 btnSonido.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 option = 1;
                 //Change some main screen items as GONE and change the text in title and in description
                 lblTitulo.setText("Sensor de Sonido");
-                lblInstrucciones.setText("Puede encender y apagar las luces por medio de aplausos");
+                lblInstrucciones.setText("Puede encender y apagar las \nluces por medio de aplausos");
                 progressBar.setVisibility(View.GONE);
                 buttonConnect.setVisibility(View.GONE);
                 btnTemperatura.setVisibility(View.GONE);
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 buttonConnect.setVisibility(View.VISIBLE);
                 btnTemperatura.setVisibility(View.VISIBLE);
                 btnSonido.setVisibility(View.VISIBLE);
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 buttonConnect.setVisibility(View.VISIBLE);
                 btnTemperatura.setVisibility(View.VISIBLE);
                 btnSonido.setVisibility(View.VISIBLE);

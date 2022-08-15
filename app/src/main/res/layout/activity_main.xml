@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:gravity="center">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="@android:color/background_light"
-        app:title="Bluetooth Connection"
+        app:title="Conexión por Bluetooth"
         app:titleTextColor="@android:color/background_light" />
 
 
@@ -37,58 +36,165 @@
             android:textColor="@color/colorOff"
             android:text="Casa Inteligente"
             android:gravity="center"
-            android:layout_marginTop="10dp"></TextView>
+            android:layout_marginTop="10dp"
+            android:id="@+id/lblTitulo"></TextView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="26dp"
+            android:textSize="20dp"
             android:textColor="@color/colorOff"
-            android:text="Una casa inteligente con \ncaracterísticas\nremotas."
+            android:text="Una casa inteligente que \npuedes controlar desde tu\nsmartphone."
             android:gravity="center"
-            android:layout_marginTop="10dp"></TextView>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/lblInstrucciones"></TextView>
 
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+        <Button
+            android:layout_width="120dp"
+            android:id="@+id/btnTemperatura"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:layout_marginLeft="80dp"
+            android:textColor="@color/colorOff"
+            android:text="Sensor de temp"
+            ></Button>
 
         <Button
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="120dp"
+            android:id="@+id/btnSonido"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:text="Sensor de Sonido"
+            android:textColor="@color/colorOff"
+            android:backgroundTint="@color/white"
+            android:layout_marginLeft="10dp"
+            ></Button>
+         </LinearLayout>
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/btnMovimiento"
+            android:text="Sensor de mov"
+            android:textColor="@color/colorOff"
             android:backgroundTint="@color/white"
             ></Button>
 
         <Button
             android:id="@+id/buttonConnect"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="Connect"
+            android:layout_marginTop="10dp"
+            android:text="Conectar"
             android:textColor="@android:color/background_light"
-            android:backgroundTint="#700E83"/>
+            android:backgroundTint="#700E83" />
 
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/textViewInfo"
-        android:layout_width="0dp"
+        android:id="@+id/lblDescTemp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:textAlignment="center"
         android:textStyle="italic"
-        android:paddingBottom="60dp" />
+        android:textColor="@color/colorOff"
+        android:visibility="gone"
+        android:text="La temperatura en grados centigrados es de: "/>
+
+    <TextView
+        android:id="@+id/lblTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:paddingBottom="60dp"
+        android:textColor="@color/colorOff"
+        android:text=""
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/lblDescSonido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:textColor="@color/colorOff"
+        android:visibility="gone"
+        android:text="Los focos se encuentran apagados"/>
+
+    <Switch
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/switchSonido"
+        android:visibility="gone"></Switch>
+
+    <TextView
+        android:id="@+id/lblDescMovimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:paddingBottom="60dp"
+        android:textColor="@color/colorOff"
+        android:text="No hay movimiento detectado"
+        android:visibility="gone"/>
+
+    <Switch
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/switchAlarma"
+        android:visibility="gone"></Switch>
+
+    <Button
+        android:id="@+id/btnExitTemp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Regresar"
+        android:textSize="16dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnExitSonido"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Regresar"
+        android:textSize="16dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnExitMovimiento"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Regresar"
+        android:textSize="16dp"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btnExit"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="50dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="120dp"
         android:text="Salir"
-        android:textSize="24sp" />
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:backgroundTint="#700E83"/>
 
     </LinearLayout>
 </ScrollView>

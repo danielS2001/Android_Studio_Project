@@ -129,6 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/switchSonido"
+        android:enabled="false"
         android:visibility="gone"></Switch>
 
     <TextView
@@ -147,7 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/switchAlarma"
-        android:visibility="gone"></Switch>
+        android:visibility="gone"
+        android:enabled="false"></Switch>
 
     <Button
         android:id="@+id/btnExitTemp"
@@ -156,7 +158,8 @@
         android:layout_marginTop="5dp"
         android:text="Regresar"
         android:textSize="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:backgroundTint="#700E83"/>
 
     <Button
         android:id="@+id/btnExitSonido"
@@ -165,7 +168,8 @@
         android:layout_marginTop="5dp"
         android:text="Regresar"
         android:textSize="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:backgroundTint="#700E83"/>
 
     <Button
         android:id="@+id/btnExitMovimiento"
@@ -174,7 +178,8 @@
         android:layout_marginTop="5dp"
         android:text="Regresar"
         android:textSize="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:backgroundTint="#700E83"/>
 
     <Button
         android:id="@+id/btnExit"

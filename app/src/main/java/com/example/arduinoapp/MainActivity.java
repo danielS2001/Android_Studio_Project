@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private String deviceAddress;
     private Button btnExit;
     private Button btnTemperatura, btnMovimiento, btnSonido, btnExitTemp, btnExitSonido, btnExitMovimiento;
-    public int option = 0;
+    public String option = "";
+    public int connected = 0;
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -92,132 +94,6 @@ public class MainActivity extends AppCompatActivity {
             createConnectThread.start();
         }
 
-        btnTemperatura.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 1;
-                //Change some main screen items as GONE and change the text in title and in description
-                lblTitulo.setText("Sensor de temperatura");
-                lblInstrucciones.setText("Mide la temperatura de tu hogar");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.GONE);
-                btnTemperatura.setVisibility(View.GONE);
-                btnSonido.setVisibility(View.GONE);
-                btnMovimiento.setVisibility(View.GONE);
-                btnExit.setVisibility(View.GONE);
-
-                //Set visibility of temp items as VISIBLE
-                lblDescTemp.setVisibility(View.VISIBLE);
-                lblTemp.setVisibility(View.VISIBLE);
-                btnExitTemp.setVisibility(View.VISIBLE);
-            }
-        });
-
-        btnExitTemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 0;
-                //Change some main screen items as Visible and change the text in title and in description.
-                lblTitulo.setText("Casa Inteligente");
-                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.VISIBLE);
-                btnTemperatura.setVisibility(View.VISIBLE);
-                btnSonido.setVisibility(View.VISIBLE);
-                btnMovimiento.setVisibility(View.VISIBLE);
-                btnExit.setVisibility(View.VISIBLE);
-
-                //Set visibility of temp items as GONE
-                lblDescTemp.setVisibility(View.GONE);
-                switchSonido.setVisibility(View.GONE);
-                btnExitTemp.setVisibility(View.GONE);
-            }
-        });
-
-        btnSonido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 1;
-                //Change some main screen items as GONE and change the text in title and in description
-                lblTitulo.setText("Sensor de Sonido");
-                lblInstrucciones.setText("Puede encender y apagar las \nluces por medio de aplausos");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.GONE);
-                btnTemperatura.setVisibility(View.GONE);
-                btnSonido.setVisibility(View.GONE);
-                btnMovimiento.setVisibility(View.GONE);
-                btnExit.setVisibility(View.GONE);
-
-                //Set visibility of temp items as VISIBLE
-                lblDescSonido.setVisibility(View.VISIBLE);
-                switchSonido.setVisibility(View.VISIBLE);
-                btnExitSonido.setVisibility(View.VISIBLE);
-            }
-        });
-
-        btnExitSonido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 2;
-                //Change some main screen items as Visible and change the text in title and in description.
-                lblTitulo.setText("Casa Inteligente");
-                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.VISIBLE);
-                btnTemperatura.setVisibility(View.VISIBLE);
-                btnSonido.setVisibility(View.VISIBLE);
-                btnMovimiento.setVisibility(View.VISIBLE);
-                btnExit.setVisibility(View.VISIBLE);
-
-                //Set visibility of temp items as GONE
-                lblDescSonido.setVisibility(View.GONE);
-                switchSonido.setVisibility(View.GONE);
-                btnExitSonido.setVisibility(View.GONE);
-            }
-        });
-
-        btnMovimiento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 3;
-                //Change some main screen items as GONE and change the text in title and in description
-                lblTitulo.setText("Sensor de Movimiento");
-                lblInstrucciones.setText("Puede ver el estado de la alarma");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.GONE);
-                btnTemperatura.setVisibility(View.GONE);
-                btnSonido.setVisibility(View.GONE);
-                btnMovimiento.setVisibility(View.GONE);
-                btnExit.setVisibility(View.GONE);
-
-                //Set visibility of temp items as VISIBLE
-                lblDescMovimiento.setVisibility(View.VISIBLE);
-                switchAlarma.setVisibility(View.VISIBLE);
-                btnExitMovimiento.setVisibility(View.VISIBLE);
-            }
-        });
-
-        btnExitMovimiento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                option = 0;
-                //Change some main screen items as Visible and change the text in title and in description.
-                lblTitulo.setText("Casa Inteligente");
-                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
-                progressBar.setVisibility(View.GONE);
-                buttonConnect.setVisibility(View.VISIBLE);
-                btnTemperatura.setVisibility(View.VISIBLE);
-                btnSonido.setVisibility(View.VISIBLE);
-                btnMovimiento.setVisibility(View.VISIBLE);
-                btnExit.setVisibility(View.VISIBLE);
-
-                //Set visibility of temp items as GONE
-                lblDescMovimiento.setVisibility(View.GONE);
-                switchAlarma.setVisibility(View.GONE);
-                btnExitMovimiento.setVisibility(View.GONE);
-            }
-        });
-
         /*
         Second most important piece of Code. GUI Handler
          */
@@ -226,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg){
                 switch (msg.what){
                     case CONNECTING_STATUS:
-                        switch(msg.arg1){
+                        switch(msg.arg1) {
                             case 1:
                                 toolbar.setSubtitle("Connected to " + deviceName);
                                 progressBar.setVisibility(View.GONE);
+                                connected = 1;
                                 buttonConnect.setEnabled(true);
                                 break;
                             case -1:
@@ -242,15 +119,16 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        if (option == 1) {
-                            if (arduinoMsg == "Intrusos detectados") {
+                        if (option.matches("movimiento")) {
+                            if (arduinoMsg == "movimiento detectado") {
                                 lblDescMovimiento.setText("Se han detectado intrusos");
+                                switchAlarma.setChecked(true);
                             }
-                        } else if (option == 2) {
+                        } else if (option.matches("sonido")) {
                             if (arduinoMsg == "LED ON") {
                                 lblDescSonido.setText("Los focos se encuentran encendidos");
                             }
-                        } else if (option == 3) {
+                        } else if (option.matches("temperatura")) {
                             lblTemp.setText(" " +arduinoMsg + " Grados");
                         }
                         break;
@@ -289,6 +167,145 @@ public class MainActivity extends AppCompatActivity {
                 confirmar.show();
             }
         });
+
+        if (connected == 1) {
+        btnTemperatura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "temperatura";
+                connectedThread.write("<temperatura>");
+                //Change some main screen items as GONE and change the text in title and in description
+                lblTitulo.setText("Sensor de temperatura");
+                lblInstrucciones.setText("Mide la temperatura de tu hogar");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.GONE);
+                btnTemperatura.setVisibility(View.GONE);
+                btnSonido.setVisibility(View.GONE);
+                btnMovimiento.setVisibility(View.GONE);
+                btnExit.setVisibility(View.GONE);
+
+                //Set visibility of temp items as VISIBLE
+                lblDescTemp.setVisibility(View.VISIBLE);
+                lblTemp.setVisibility(View.VISIBLE);
+                btnExitTemp.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnExitTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "salir";
+                connectedThread.write("<salir>");
+                //Change some main screen items as Visible and change the text in title and in description.
+                lblTitulo.setText("Casa Inteligente");
+                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.VISIBLE);
+                btnTemperatura.setVisibility(View.VISIBLE);
+                btnSonido.setVisibility(View.VISIBLE);
+                btnMovimiento.setVisibility(View.VISIBLE);
+                btnExit.setVisibility(View.VISIBLE);
+
+                //Set visibility of temp items as GONE
+                lblDescTemp.setVisibility(View.GONE);
+                switchSonido.setVisibility(View.GONE);
+                btnExitTemp.setVisibility(View.GONE);
+            }
+        });
+
+        btnSonido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "sonido";
+                connectedThread.write("<sonido>");
+                //Change some main screen items as GONE and change the text in title and in description
+                lblTitulo.setText("Sensor de Sonido");
+                lblInstrucciones.setText("Puede encender y apagar las \nluces por medio de aplausos");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.GONE);
+                btnTemperatura.setVisibility(View.GONE);
+                btnSonido.setVisibility(View.GONE);
+                btnMovimiento.setVisibility(View.GONE);
+                btnExit.setVisibility(View.GONE);
+
+                //Set visibility of temp items as VISIBLE
+                lblDescSonido.setVisibility(View.VISIBLE);
+                switchSonido.setVisibility(View.VISIBLE);
+                btnExitSonido.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnExitSonido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "salir";
+                connectedThread.write("<salir>");
+                //Change some main screen items as Visible and change the text in title and in description.
+                lblTitulo.setText("Casa Inteligente");
+                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.VISIBLE);
+                btnTemperatura.setVisibility(View.VISIBLE);
+                btnSonido.setVisibility(View.VISIBLE);
+                btnMovimiento.setVisibility(View.VISIBLE);
+                btnExit.setVisibility(View.VISIBLE);
+
+                //Set visibility of temp items as GONE
+                lblDescSonido.setVisibility(View.GONE);
+                switchSonido.setVisibility(View.GONE);
+                btnExitSonido.setVisibility(View.GONE);
+            }
+        });
+
+        btnMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "movimiento";
+                connectedThread.write("<movimiento>");
+                //Change some main screen items as GONE and change the text in title and in description
+                lblTitulo.setText("Sensor de Movimiento");
+                lblInstrucciones.setText("Puede ver el estado de la alarma");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.GONE);
+                btnTemperatura.setVisibility(View.GONE);
+                btnSonido.setVisibility(View.GONE);
+                btnMovimiento.setVisibility(View.GONE);
+                btnExit.setVisibility(View.GONE);
+
+                //Set visibility of temp items as VISIBLE
+                lblDescMovimiento.setVisibility(View.VISIBLE);
+                switchAlarma.setVisibility(View.VISIBLE);
+                btnExitMovimiento.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnExitMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                option = "salir";
+                connectedThread.write("<salir>");
+                //Change some main screen items as Visible and change the text in title and in description.
+                lblTitulo.setText("Casa Inteligente");
+                lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
+                progressBar.setVisibility(View.GONE);
+                buttonConnect.setVisibility(View.VISIBLE);
+                btnTemperatura.setVisibility(View.VISIBLE);
+                btnSonido.setVisibility(View.VISIBLE);
+                btnMovimiento.setVisibility(View.VISIBLE);
+                btnExit.setVisibility(View.VISIBLE);
+
+                //Set visibility of temp items as GONE
+                lblDescMovimiento.setVisibility(View.GONE);
+                switchAlarma.setVisibility(View.GONE);
+                btnExitMovimiento.setVisibility(View.GONE);
+            }
+        });
+
+        } else {
+            //Toast.makeText(MainActivity.this, "Falta conectar con bluetooth", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */

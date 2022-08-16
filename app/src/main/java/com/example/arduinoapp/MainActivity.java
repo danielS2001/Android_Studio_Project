@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnExitTemp, btnExitSonido, btnExitMovimiento;
     private ImageView btnTemperatura, btnMovimiento, btnSonido;
-    public int option = 0;
-    private Button btnTemperatura, btnMovimiento, btnSonido, btnExitTemp, btnExitSonido, btnExitMovimiento;
     public String option = "";
     public int connected = 0;
     public static Handler handler;
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if (deviceName != null){
             // Get the device address to make BT Connection
             deviceAddress = getIntent().getStringExtra("deviceAddress");
-            // Show progree and connection status
+            // Show progress and connection status
             toolbar.setSubtitle("Connecting to " + deviceName + "...");
             progressBar.setVisibility(View.VISIBLE);
             buttonConnect.setEnabled(false);
@@ -123,17 +121,31 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        if (option.matches("movimiento")) {
-                            if (arduinoMsg == "movimiento detectado") {
-                                lblDescMovimiento.setText("Se han detectado intrusos");
-                                switchAlarma.setChecked(true);
-                            }
-                        } else if (option.matches("sonido")) {
-                            if (arduinoMsg == "LED ON") {
-                                lblDescSonido.setText("Los focos se encuentran encendidos");
-                            }
-                        } else if (option.matches("temperatura")) {
+                        if(Character.isDigit(arduinoMsg.charAt(0))) {
                             lblTemp.setText(" " +arduinoMsg + " Grados");
+                        }
+
+                        switch (arduinoMsg.toLowerCase()) {
+                            case "movimiento detectado":
+                                lblDescMovimiento.setText("Advertencia: Se han detectado intrusos");
+                                switchAlarma.setChecked(true);
+                                switchAlarma.setEnabled(true);
+                                break;
+                        }
+                        if(!(switchAlarma.isChecked())) {
+                            lblDescMovimiento.setText("Alarma apagada");
+                        }
+
+                        if(arduinoMsg.equals("LED ON")) {
+                            lblDescSonido.setText("Los focos se encuentran encendidos");
+                            switchSonido.setChecked(true);
+                            switchSonido.setEnabled(true);
+                        }
+
+                        if(switchSonido.isChecked()) {
+                            connectedThread.write("turn on");
+                        } else if (!(switchSonido.isChecked())) {
+                            connectedThread.write("turn off");
                         }
                         break;
                 }
@@ -172,12 +184,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (connected == 1) {
         btnTemperatura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "temperatura";
-                connectedThread.write("<temperatura>");
+                //option = "temperatura";
+                //connectedThread.write("<temperatura>");
                 //Change some main screen items as GONE and change the text in title and in description
                 lblTitulo.setText("Sensor de temperatura");
                 lblInstrucciones.setText("Mide la temperatura de tu hogar");
@@ -198,8 +209,6 @@ public class MainActivity extends AppCompatActivity {
         btnExitTemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "salir";
-                connectedThread.write("<salir>");
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
@@ -212,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Set visibility of temp items as GONE
                 lblDescTemp.setVisibility(View.GONE);
-                switchSonido.setVisibility(View.GONE);
+                lblTemp.setVisibility(View.GONE);
                 btnExitTemp.setVisibility(View.GONE);
             }
         });
@@ -220,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
         btnSonido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "sonido";
-                connectedThread.write("<sonido>");
+                //option = "sonido";
+                //connectedThread.write("<sonido>");
                 //Change some main screen items as GONE and change the text in title and in description
                 lblTitulo.setText("Sensor de Sonido");
                 lblInstrucciones.setText("Puede encender y apagar las \nluces por medio de aplausos");
@@ -242,8 +251,6 @@ public class MainActivity extends AppCompatActivity {
         btnExitSonido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "salir";
-                connectedThread.write("<salir>");
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
@@ -264,8 +271,8 @@ public class MainActivity extends AppCompatActivity {
         btnMovimiento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "movimiento";
-                connectedThread.write("<movimiento>");
+                //option = "movimiento";
+                //connectedThread.write("<movimiento>");
                 //Change some main screen items as GONE and change the text in title and in description
                 lblTitulo.setText("Sensor de Movimiento");
                 lblInstrucciones.setText("Puede ver el estado de la alarma");
@@ -286,8 +293,6 @@ public class MainActivity extends AppCompatActivity {
         btnExitMovimiento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                option = "salir";
-                connectedThread.write("<salir>");
                 //Change some main screen items as Visible and change the text in title and in description.
                 lblTitulo.setText("Casa Inteligente");
                 lblInstrucciones.setText("Una casa inteligente con \ncaracterísticas remotas.");
@@ -304,12 +309,6 @@ public class MainActivity extends AppCompatActivity {
                 btnExitMovimiento.setVisibility(View.GONE);
             }
         });
-
-        } else {
-            //Toast.makeText(MainActivity.this, "Falta conectar con bluetooth", Toast.LENGTH_SHORT).show();
-        }
-
-
     }
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */

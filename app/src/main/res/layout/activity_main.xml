@@ -98,9 +98,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textStyle="italic"
         android:textColor="@color/colorOff"
         android:visibility="gone"
+        android:textSize="18dp"
         android:text="La temperatura en grados centigrados es de: "/>
 
     <TextView
@@ -108,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textStyle="italic"
+        android:textSize="36dp"
         android:paddingBottom="60dp"
         android:textColor="@color/colorOff"
         android:text=""
@@ -119,17 +119,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textStyle="italic"
+        android:textSize="18dp"
         android:textColor="@color/colorOff"
+        android:layout_marginBottom="60dp"
         android:visibility="gone"
         android:text="Los focos se encuentran apagados"/>
 
     <Switch
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/switchSonido"
-        android:enabled="false"
+        android:enabled="true"
+        android:scaleY="2"
+        android:scaleX="2"
         android:visibility="gone"></Switch>
 
     <TextView
@@ -137,25 +140,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textStyle="italic"
+        android:textSize="18dp"
         android:paddingBottom="60dp"
         android:textColor="@color/colorOff"
         android:text="No hay movimiento detectado"
         android:visibility="gone"/>
 
     <Switch
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/switchAlarma"
+        android:textSize="50dp"
         android:visibility="gone"
+        android:scaleX="2"
+        android:scaleY="2"
         android:enabled="false"></Switch>
 
     <Button
         android:id="@+id/btnExitTemp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="Regresar"
         android:textSize="16dp"
         android:visibility="gone"
@@ -165,7 +171,7 @@
         android:id="@+id/btnExitSonido"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="Regresar"
         android:textSize="16dp"
         android:visibility="gone"
@@ -175,7 +181,7 @@
         android:id="@+id/btnExitMovimiento"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:text="Regresar"
         android:textSize="16dp"
         android:visibility="gone"
